@@ -88,7 +88,8 @@ def build_snapshot(city: str) -> dict:
             "name": cfg["name"], "country": cfg["country"],
             "population": cfg["population"], "heat_pitch": cfg["heat_pitch"],
             "map": cfg["map"],
-            "source": (f"Temperature API® mesh (20 m², 2 m above ground) — {len(real['rows'])} real readings, re-anchored daily"
+            "source": (f"Temperature API® mesh (20 m², 2 m above ground): "
+                       f"{real['n_days'] * real['n_nodes']} real readings, re-anchored daily"
                        if real["covered"]
                        else "Simulated Temperature API® mesh feed (identical schema), calibrated on real Open-Meteo weather"),
         },

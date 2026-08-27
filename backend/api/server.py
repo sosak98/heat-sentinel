@@ -130,13 +130,13 @@ class Engine:
         if si and si.get("ok") and si.get("latest"):
             mode = "live-sync"
             li = si["latest"]
-            source = (f"Temperature API® mesh (20 m², 2 m above ground) — live sync "
+            source = (f"Temperature API® mesh (20 m², 2 m above ground): live sync "
                       f"on the server · last real day {li['date']} "
                       f"(measured max {li['max_c']} °C, {li['node']}) · feed re-anchored "
                       f"on {si.get('n_readings', '?')} real readings")
         elif self.n_cal:
             mode = "calibrated"
-            source = (f"Temperature API® mesh (20 m², 2 m above ground) — simulation "
+            source = (f"Temperature API® mesh (20 m², 2 m above ground): simulation "
                       f"re-anchored on {self.n_cal} real readings (Temperature API®)")
         else:
             mode = "fortyguard" if is_real() else "simulated"

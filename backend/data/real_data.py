@@ -24,6 +24,8 @@ import os
 
 import pandas as pd
 
+from .mock import _future_max
+
 HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -75,16 +77,19 @@ def calibrate_history(history: pd.DataFrame, city: str) -> tuple[pd.DataFrame, i
         # pas de mesure RH réelle pour l'instant → on ne touche pas à rh_pct.
         n_cal += 1
 
-    # CONTINUATION DE TENDANCE : les jours simulés APRÈS le dernier jour réel
+    # CONTINUATION DE TENDANCE : les jours simulés autour de la fenêtre réelle
     # suivent la tendance observée sur les 2 derniers jours réels (amortie
-    # ×0.7) — le pic projeté reste cohérent avec les mesures (pas de saut).
+    # ×0.7), vers l'avenir ET vers le passé — aucun jour simulé ne s'écarte
+    # nettement des niveaux mesurés (pas de saut visible dans la démo).
     last_day = real["date"].max()
+    first_day = real["date"].min()
     for nid, gnode in df.groupby("node_id"):
         rnode = real[real["node_id"] == nid].sort_values("date")
         if len(rnode) < 2:
             continue
         dmax = float(rnode["max_c"].iloc[-1] - rnode["max_c"].iloc[-2])
         dmin = float(rnode["min_c"].iloc[-1] - rnode["min_c"].iloc[-2])
+        # après le dernier jour réel : tendance future
         tmax = float(rnode["max_c"].iloc[-1]) + 0.7 * dmax
         tmin = float(rnode["min_c"].iloc[-1]) + 0.7 * dmin
         fut = gnode[gnode["date"] > last_day]
@@ -96,6 +101,39 @@ def calibrate_history(history: pd.DataFrame, city: str) -> tuple[pd.DataFrame, i
             a = (tmax - tmin) / (hi_m - lo_m)
             b = tmin - a * lo_m
             df.loc[g.index, "temp_c"] = a * t + b
+        # avant le premier jour réel : tendance passée
+        tmax = float(rnode["max_c"].iloc[0]) - 0.7 * dmax
+        tmin = float(rnode["min_c"].iloc[0]) - 0.7 * dmin
+        past = gnode[gnode["date"] < first_day].sort_values("date", ascending=False)
+        for _, g in past.groupby("date", sort=True):
+            t = g["temp_c"].to_numpy()
+            lo_m, hi_m = t.min(), t.max()
+            if hi_m - lo_m < 1e-3:
+                continue
+            a = (tmax - tmin) / (hi_m - lo_m)
+            b = tmin - a * lo_m
+            df.loc[g.index, "temp_c"] = a * t + b
+
+    # Jours partiels (une seule ligne, ex. premier instant de la série) :
+    # on reprend la valeur de l'instant équivalent du lendemain (ancré).
+    sizes = df.groupby(["node_id", "date"]).size()
+    for (nid, day) in sizes[sizes == 1].index:
+        i_now = df[(df["node_id"] == nid) & (df["date"] == day)].index
+        if len(i_now) == 0:
+            continue
+        hour = df.loc[i_now[0], "ts"].hour
+        nxt = (pd.Timestamp(day) + pd.Timedelta(days=1)).strftime("%Y-%m-%d")
+        i_next = df[(df["node_id"] == nid) & (df["date"] == nxt) & (df["ts"].dt.hour == hour)].index
+        if len(i_next):
+            df.loc[i_now, "temp_c"] = df.loc[i_next[0], "temp_c"]
+
+    # La cible future_max_6h est recalculée sur la série RECALIBREE :
+    # generate_history l'avait calculée sur la simulation brute (avant
+    # recalage), ce qui biaisait le modèle de +3 à +4 °C systématiques.
+    for nid, gnode in df.groupby("node_id", sort=False):
+        df.loc[gnode.index, "future_max_6h"] = _future_max(
+            gnode["temp_c"].to_numpy(), 6
+        )
 
     df = df.drop(columns=["date"])
     return df, n_cal

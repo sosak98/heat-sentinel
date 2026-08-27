@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real data — HeatSentinel</title>
+<title>Real data | HeatSentinel</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -27,21 +27,21 @@
 <section class="block">
   <div class="wrap">
     <div class="kicker">Real data</div>
-    <h2 class="title">We plugged in the trial key — and harvested the real thing</h2>
-    <p class="sub">With our <b>FortyGuard Temperature API® trial key</b>, we first tested coverage: <b>Cotonou is not in the mesh yet</b> (0 tiles, verified Aug 27), <b>Phoenix is</b>. We then harvested three full days of real measurements in Phoenix, mid-heat-wave — and every harvested day re-anchors the model.</p>
+    <h2 class="title">We plugged in the trial key, and harvested the real thing</h2>
+    <p class="sub">With our <b>FortyGuard Temperature API® trial key</b>, we first tested coverage: <b>Cotonou is not in the mesh yet</b> (0 tiles, verified Aug 27), <b>Phoenix is</b>. We then harvested three full days of real measurements in Phoenix, mid-heat-wave, and every harvested day re-anchors the model.</p>
 
     <div class="stats">
       <div class="row">
-        <div class="stat"><b>60</b><span>real readings — 3 days × 20 points</span></div>
+        <div class="stat"><b>60</b><span>real readings, 3 days × 20 points</span></div>
         <div class="stat"><b>≈70</b><span>API requests (cached, never re-requested, credit-aware)</span></div>
-        <div class="stat"><b>Aug 24–26</b><span>harvest window — an active heat wave</span></div>
+        <div class="stat"><b>Aug 24–26</b><span>harvest window, an active heat wave</span></div>
         <div class="stat"><b>40.5 → 42.9 °C</b><span>Downtown's real peak, day over day</span></div>
       </div>
-      <p class="sub" style="margin-top:10px">≈70 requests → 60 readings: one request per point-day (60) plus a handful of one-off coverage probes — every response is cached locally and never re-requested (credit-aware).</p>
+      <p class="sub" style="margin-top:10px">≈70 requests → 60 readings: one request per point-day (60) plus a handful of one-off coverage probes; every response is cached locally and never re-requested (credit-aware).</p>
     </div>
 
     <div class="note mt32">
-      <b>What is real / what is simulated — stated plainly:</b> the API delivers each point's <b>real daily minimum, mean and maximum</b> (the mesh's native granularity — full-day statistics per tile). The <b>hourly shape</b> between those bounds is simulated, and the demo accelerates time so the wave is visible in two minutes. The re-anchoring is a simple affine fit: the simulated daily curve is stretched to pass exactly through the real min and max. <b>On the live deployment the backend calls the Temperature API® itself, every 24 h</b> (live sync): each new real day is pulled the moment it closes and the feed is re-anchored automatically — the numbers above grow on their own, no manual re-harvest. All of it is public: <code>harvest.py</code> (harvest), <code>backend/data/livesync.py</code> (live sync) and <code>backend/data/real_data.py</code> (re-anchoring).
+      <b>What is real, and what is simulated, stated plainly:</b> the API delivers each point's <b>real daily minimum, mean and maximum</b> (the mesh's native granularity: full-day statistics per tile). The <b>hourly shape</b> between those bounds is simulated, and the demo accelerates time so the wave is visible in two minutes. The re-anchoring is a simple affine fit: the simulated daily curve is stretched to pass exactly through the real min and max. <b>On the live deployment the backend calls the Temperature API® itself, every 24 h</b> (live sync): each new real day is pulled the moment it closes and the feed is re-anchored automatically, so the numbers above grow on their own, no manual re-harvest. All of it is public: <code>harvest.py</code> (harvest), <code>backend/data/livesync.py</code> (live sync) and <code>backend/data/real_data.py</code> (re-anchoring).
     </div>
   </div>
 </section>
@@ -49,7 +49,7 @@
 <section class="block" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
     <div class="kicker">The harvest</div>
-    <h2 class="title" style="font-size:24px">60 real readings — Phoenix, August 24 → 26, 2026</h2>
+    <h2 class="title" style="font-size:24px">60 real readings: Phoenix, August 24 → 26, 2026</h2>
     <p class="sub">For each mesh point (20 m² resolution, measured 2 m above ground): the real daily minimum, mean and maximum, exactly as returned by the Temperature API®.</p>
     <div id="realBlocks"></div>
   </div>
@@ -58,15 +58,15 @@
 <section class="block">
   <div class="wrap">
     <div class="kicker">Cotonou, when the mesh arrives</div>
-    <h2 class="title" style="font-size:24px">The Cotonou configuration is already calibrated — and waiting</h2>
+    <h2 class="title" style="font-size:24px">The Cotonou configuration is already calibrated, and waiting</h2>
     <div class="grid2" style="margin-top:24px">
       <div class="card">
         <h3>🇧🇯 A Cotonou model calibrated on real weather</h3>
-        <p>While mesh coverage is pending, the Cotonou simulator is anchored on real Open-Meteo observations (Aug 21–27: mean 26.6 °C, humidity ~83%, <b>hourly bias −0.63 °C</b> — reproducible with <code>validate.py</code>). The simulated heat wave matches a documented extreme (Cotonou record ~38 °C in the hot season); with humidity, feels-like crosses 40 °C.</p>
+        <p>While mesh coverage is pending, the Cotonou simulator is anchored on real Open-Meteo observations (Aug 21–27: mean 26.6 °C, humidity ~83%, <b>hourly bias −0.63 °C</b>, reproducible with <code>validate.py</code>). The simulated heat wave matches a documented extreme (Cotonou record ~38 °C in the hot season); with humidity, feels-like crosses 40 °C.</p>
       </div>
       <div class="card">
         <h3>🔄 One pipeline, zero code changes</h3>
-        <p>When Cotonou enters the mesh: <code>harvest.py --city cotonou</code> collects the real days, <code>train.py</code> re-anchors the model in under 30 seconds, and the demo's real-data panel opens on Cotonou — with alerts in French + Fon. Same system, same API, a different city file.</p>
+        <p>When Cotonou enters the mesh: <code>harvest.py --city cotonou</code> collects the real days, <code>train.py</code> re-anchors the model in under 30 seconds, and the demo's real-data panel opens on Cotonou, with alerts in French + Fon. Same system, same API, a different city file.</p>
       </div>
     </div>
   </div>
@@ -95,7 +95,7 @@ REALDATA.dates.forEach((d, i) => {
     extra = ' · <b style="color:var(--heat)">+' + (maxc - prev).toFixed(1) + ' °C vs previous day</b>';
   }
   html += '<div class="day-block"><h3>' + (DATES_EN[d] || d) +
-    ' <span class="mut">— day peak: ' + maxc.toFixed(2) + ' °C' + extra + '</h3>';
+    ' <span class="mut">· day peak: ' + maxc.toFixed(2) + ' °C' + extra + '</h3>';
   html += '<div class="rgrid">';
   rows.forEach(r => {
     html += '<div class="rcard"><div class="n">' + r.name + '</div>' +

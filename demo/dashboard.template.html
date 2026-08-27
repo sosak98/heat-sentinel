@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HeatSentinel — Cotonou · Bénin</title>
+<title>HeatSentinel | Live Demo</title>
 <style>
 :root{
   --bg:#0b1120; --card:#121b2f; --card2:#0e1626; --line:#223052;
@@ -159,7 +159,7 @@ footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:
   <div class="grid">
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="card mapbox">
-        <h2>Where heat is building <span class="hint">— 20 Temperature API® mesh points (20 m² resolution, measured 2 m above ground)</span></h2>
+        <h2>Where heat is building <span class="hint">· 20 Temperature API® mesh points (20 m² resolution, measured 2 m above ground)</span></h2>
         <div class="mapframe">
           <img id="mapImg" src="/*__MAPIMG__*/" alt="Carte de la ville (OpenStreetMap)">
           <svg id="map" viewBox="0 0 1200 872" preserveAspectRatio="none">
@@ -187,20 +187,20 @@ footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:
           <div class="dcell"><div class="k">Risk (0–100)</div><div class="v" id="dScore">—</div></div>
         </div>
         <canvas id="spark" width="900" height="74"></canvas>
-        <div class="annote">Last 24 hours — the peak is still ahead: that is the point of a nowcast, predicting it six hours early.</div>
+        <div class="annote">Last 24 hours, the peak is still ahead: that is the point of a nowcast, predicting it six hours early.</div>
       </div>
     </div>
 
     <div class="card">
-      <h2>Dispatched alerts <span class="hint">— SMS / WhatsApp, localized per city</span></h2>
+      <h2>Dispatched alerts <span class="hint">· SMS / WhatsApp, localized per city</span></h2>
       <div id="alerts"></div>
-      <div class="annote">Alerts are localized per city — English in this Phoenix demo; French + <b>Fon</b> in the Cotonou deployment — each with concrete actions.</div>
+      <div class="annote">Alerts are localized per city: English in this Phoenix demo, French in the Cotonou deployment, each with concrete actions.</div>
     </div>
   </div>
 
   <div class="card" id="realCard">
     <div class="realhead">
-      <h2 style="margin-bottom:0">Real data — Temperature API® (FortyGuard mesh)</h2>
+      <h2 style="margin-bottom:0">Real data: Temperature API® (FortyGuard mesh)</h2>
       <span class="hint" id="realMeta" style="font-size:12.5px;color:var(--faint)"></span>
     </div>
     <div class="annote" id="realNote"></div>
@@ -208,13 +208,13 @@ footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:
   </div>
 
   <div class="card">
-    <h2>Agent log <span class="hint">— Observe · Predict · Decide · Act (every decision is audited)</span></h2>
+    <h2>Agent log <span class="hint">· Observe · Predict · Decide · Act (every decision is audited)</span></h2>
     <div id="agent"></div>
   </div>
 
   <footer>
     <span id="modelinfo">—</span>
-    <span>HEATSENTINEL · FortyGuard Hackathon'26 — Building the World's Temperature AI</span>
+    <span>HEATSENTINEL · FortyGuard Hackathon'26 · Building the World's Temperature AI</span>
   </footer>
 </div>
 
@@ -228,8 +228,8 @@ const ZONES={industrial:"Industrial / port zone",dense:"Dense urban core",beach:
 const EV_FR={monitor:"Observe",alert:"Decide",act:"Act",insight:"Insight",suppress:"Filter"};
 const EV_C={monitor:"#38c8d8",alert:"#ff5252",act:"#2fd48f",insight:"#ffc94d",suppress:"#6b7a99"};
 const BANNER={
-  phoenix:"<span class='tag'>LIVE · REAL DATA</span><b>Phoenix, USA</b> — the full system running on <b>real Temperature API® mesh data</b>, harvested during the current heat wave. Deployment target: <b>Cotonou, Benin</b> — pending mesh coverage (verified Aug 27, 2026); the same pipeline drops in the day coverage arrives.",
-  cotonou:"<span class='tag'>DEPLOYMENT TARGET</span><b>Cotonou, Benin</b> — HeatSentinel's home city (~700,000 residents, feels-like above 40 °C in humid heat). The FortyGuard mesh does not cover Cotonou yet: the feed shown is simulated and calibrated on real Open-Meteo observations (hourly bias −0.6 °C)."
+  phoenix:"<span class='tag'>LIVE · REAL DATA</span><b>Phoenix, USA</b>: the full system running on <b>real Temperature API® mesh data</b>, harvested during the current heat wave. Deployment target: <b>Cotonou, Benin</b>, pending mesh coverage (verified Aug 27, 2026); the same pipeline drops in the day coverage arrives.",
+  cotonou:"<span class='tag'>DEPLOYMENT TARGET</span><b>Cotonou, Benin</b>: HeatSentinel's home city (~700,000 residents, feels-like above 40 °C in humid heat). The FortyGuard mesh does not cover Cotonou yet: the feed shown is simulated and calibrated on real Open-Meteo observations (hourly bias −0.6 °C)."
 };
 
 const MB = /*__MAPBOUNDS__*/;
@@ -256,10 +256,10 @@ function render(){
   CITYKEY=(DATA.city.name||"").toLowerCase();
   // header
   $("#cityName").textContent = CITYKEY==="phoenix" ? "Phoenix, USA" : "Cotonou, Benin";
-  document.title = CITYKEY==="phoenix" ? "HeatSentinel — Live Demo · Phoenix (Real Mesh Data)" : "HeatSentinel — Live Demo · Cotonou (Deployment Target)";
+  document.title = CITYKEY==="phoenix" ? "HeatSentinel | Live Demo · Phoenix (Real Mesh Data)" : "HeatSentinel | Live Demo · Cotonou (Deployment Target)";
   $("#clock").textContent="Local time: "+DATA.clock_local;
   const b=$("#badge");
-  if(LIVE){b.className="badge live";b.innerHTML="● LIVE (×4 accelerated — 1 h ≈ 15 s)";}
+  if(LIVE){b.className="badge live";b.innerHTML="● LIVE (×4 accelerated, 1 h ≈ 15 s)";}
   else{b.className="badge demo";b.innerHTML="◍ DEMO MODE (offline snapshot)";}
   // banner
   const bn=BANNER[CITYKEY]||BANNER.cotonou;
@@ -298,7 +298,7 @@ function renderMap(){
     el.setAttribute("class","node"+(n.node_id===selected?" sel":""));
     el.setAttribute("data-id",n.node_id);
     const t=document.createElementNS("http://www.w3.org/2000/svg","title");
-    t.textContent=n.name+" — "+n.t_now.toFixed(1)+" °C now, peak "+n.tmax6h.toFixed(1)+" °C in 6 h (risk "+n.score.toFixed(0)+"/100)";
+    t.textContent=n.name+": "+n.t_now.toFixed(1)+" °C now, peak "+n.tmax6h.toFixed(1)+" °C in 6 h (risk "+n.score.toFixed(0)+"/100)";
     el.appendChild(t);
     el.addEventListener("click",()=>{selected=n.node_id;renderMap();renderDetail();});
     g.appendChild(el);
@@ -356,7 +356,7 @@ function renderAlerts(){
     (fon?'<div class="a-fon"><span class="fon-tag">FON</span>'+fon+'</div>':'')+
     (a.actions_fr&&a.actions_fr.length?'<div class="a-actions"><b>Actions:</b> '+a.actions_fr.join(" · ")+'</div>':'')+
     '</div>';
-  }).join("")||'<div class="mut">No alerts right now — the city is under control.</div>';
+  }).join("")||'<div class="mut">No alerts right now, the city is under control.</div>';
 }
 
 function renderReal(){
@@ -366,8 +366,8 @@ function renderReal(){
   const LS=DATA.live_sync;
   $("#realMeta").textContent=R.n_days+" days × "+R.n_nodes+" points · "+R.granularity_m+" m granularity · full-day min / mean / max per tile"+((LS&&LS.ok&&LS.last_sync)?" · last live sync "+LS.last_sync.slice(5,16).replace("T"," ")+" UTC":"");
   $("#realNote").textContent=(LS&&LS.ok&&LS.latest)
-    ? "These measurements come directly from the Temperature API®. The backend syncs live on the server: last real day "+LS.latest.date+" (measured max "+LS.latest.max_c+" °C at "+LS.latest.node+"). The model is re-anchored on these real min/mean/max — the temperature levels are real; only the hourly shape is simulated."
-    : "These measurements come directly from the Temperature API® (harvested Aug 27, 2026). The model is re-anchored daily on these real min/mean/max — the temperature levels are real; only the hourly shape is simulated.";
+    ? "These measurements come directly from the Temperature API®. The backend syncs live on the server: last real day "+LS.latest.date+" (measured max "+LS.latest.max_c+" °C at "+LS.latest.node+"). The model is re-anchored on these real min/mean/max, the temperature levels are real; only the hourly shape is simulated."
+    : "These measurements come directly from the Temperature API® (harvested Aug 27, 2026). The model is re-anchored daily on these real min/mean/max: the temperature levels are real; only the hourly shape is simulated.";
   $("#realGrid").innerHTML=R.rows.map(r=>
     '<div class="realcard"><div class="rc-name">'+r.name+'</div><div class="rc-date">'+r.date+' · '+r.node_id+'</div>'+
     '<div class="rc-vals"><span class="rc-min"><b>'+r.min_c.toFixed(1)+'</b> min</span>'+

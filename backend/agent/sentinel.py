@@ -94,9 +94,9 @@ def make_alert(state: dict, ts: datetime, node: dict, city: str = "cotonou") -> 
         "tmax6h": state["tmax6h"],
         "score": state["score"],
         "anomaly": bool(state.get("anomaly")),
-        "message_fr": f"[{fr}] {node['name']}: pic {state['tmax6h']:.1f} °C prévu 6 heures à l'avance (risque {state['score']:.0f}/100) — {action_fr}{anomaly_fr}",
-        "message_en": f"[{en}] {node['name']}: peak {state['tmax6h']:.1f} °C in the next 6 h (risk {state['score']:.0f}/100) — {action_en}",
-        "message_fon": LEVEL_FON.get(level, ""),
+        "message_fr": f"[{fr}] {node['name']}: pic {state['tmax6h']:.1f} °C prévu 6 heures à l'avance (risque {state['score']:.0f}/100). {action_fr}{anomaly_fr}",
+        "message_en": f"[{en}] {node['name']}: peak {state['tmax6h']:.1f} °C in the next 6 h (risk {state['score']:.0f}/100). {action_en}",
+        "message_fon": LEVEL_FON.get(level, "") if city == "cotonou" else "",
         "actions_fr": ACTIONS_FR[level],
         "actions_en": ACTIONS_EN[level],
     }
