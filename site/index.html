@@ -30,7 +30,7 @@
   <div class="veil"></div>
   <div class="inner">
     <h1>Heat kills at street level.<br>We see it coming <em>six hours early</em>.</h1>
-    <p class="lead">HeatSentinel is an agentic AI system that turns the <b>FortyGuard Temperature API®</b> — temperatures measured two meters above ground at 20&nbsp;m² resolution — into actionable early warnings for hospitals, schools and outdoor workers. <b>This demo runs on real, live mesh data from Phoenix, in an ongoing 45&nbsp;°C heat wave.</b></p>
+    <p class="lead">HeatSentinel is an agentic AI system that turns the <b>FortyGuard Temperature API®</b> — temperatures measured two meters above ground at 20&nbsp;m² resolution — into actionable early warnings for hospitals, schools and outdoor workers. <b>This demo runs on real, live mesh data from Phoenix — 42.9&nbsp;°C real street-level peak (Downtown, Aug 26) during an ongoing heat wave.</b></p>
     <div class="ctas">
       <a class="btn primary" href="demo.html">Open the live demo →</a>
       <a class="btn ghost" href="real-data.html">See the real data</a>
@@ -42,7 +42,7 @@
   <div class="row">
     <div class="stat"><b>42.9 °C</b><span>real peak captured on the mesh, Downtown Phoenix, Aug 26</span></div>
     <div class="stat"><b>6 h</b><span>lead time on the daily heat peak — enough to act</span></div>
-    <div class="stat"><b>2 MB</b><span>full model size — runs on a $120 NVIDIA Jetson, offline</span></div>
+    <div class="stat"><b>2 MB</b><span>full model size — runs offline on a Jetson-class edge device (&lt;$250)</span></div>
     <div class="stat"><b>60</b><span>real Temperature API® readings harvested for this build</span></div>
   </div>
 </div>
@@ -78,7 +78,7 @@
     <p class="sub">HeatSentinel closes the full loop on 20 measurement points of the <b>Temperature API® mesh</b> (20 m² resolution, modeled 2 m above ground — FortyGuard's mesh; no hardware installed by us).</p>
     <div class="grid4">
       <div class="card"><span class="ico">👁️</span><h3>Observe</h3><p>20 street-level points, continuously — with anomaly detection (48 h z-score) that flags local spikes and sensor drift as they happen.</p></div>
-      <div class="card"><span class="ico">🔮</span><h3>Predict</h3><p>The temperature peak <b>six hours ahead</b>, per point, with a 2 MB hybrid model (MAE 0.61 °C on real Phoenix data).</p></div>
+      <div class="card"><span class="ico">🔮</span><h3>Predict</h3><p>The temperature peak <b>six hours ahead</b>, per point, with a 2 MB hybrid model (MAE 0.46 °C on real Phoenix data).</p></div>
       <div class="card"><span class="ico">⚖️</span><h3>Decide</h3><p>A transparent rule engine — no black box, no LLM in the safety loop — that escalates only when needed and never spams.</p></div>
       <div class="card"><span class="ico">📲</span><h3>Act</h3><p>Localized alerts by SMS / WhatsApp with concrete actions: open cooling centers, ER standby, pause outdoor work 14:00–17:00.</p></div>
     </div>
@@ -93,9 +93,9 @@
       <p>FortyGuard's trial key let us do what most entries cannot: <b>harvest real data</b>. The mesh does not yet cover West Africa, so we demonstrated the system on <b>Phoenix</b> — one of the hottest cities in the mesh — through three full days of an active heat wave (Aug 24–26). Every day of real data re-anchors the model; the same pipeline drops onto Cotonou, our deployment target, the day coverage arrives.</p>
       <div class="nums">
         <div><b>60</b><span>real readings — 3 days × 20 points (Aug 24–26)</span></div>
-        <div><b>0.61 °C</b><span>mean prediction error on real Phoenix data</span></div>
-        <div><b>97%</b><span>of peak-temperature variance explained (R²)</span></div>
-        <div><b>55</b><span>API requests — cached, resumable, credit-aware</span></div>
+        <div><b>0.46 °C</b><span>mean prediction error on real Phoenix data</span></div>
+        <div><b>98.5%</b><span>of peak-temperature variance explained (R²)</span></div>
+        <div><b>≈70</b><span>API requests — cached, resumable, credit-aware</span></div>
       </div>
       <p class="mt24"><a class="btn primary" href="real-data.html">Inspect the real data →</a></p>
     </div>
@@ -125,6 +125,7 @@
   <div class="row">
     <span><span class="flame">🔥</span> HEATSENTINEL · ClimVision</span>
     <span>FortyGuard Hackathon'26 · Maps © OpenStreetMap contributors</span>
+    <span><a href="https://github.com/sosak98/heat-sentinel" target="_blank">Code on GitHub</a></span>
     <span><a href="demo.html">Demo</a> · <a href="how-it-works.html">How it works</a> · <a href="real-data.html">Real data</a> · <a href="team.html">Team</a></span>
   </div>
 </footer>

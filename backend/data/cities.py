@@ -76,7 +76,7 @@ CITIES = {
     "phoenix": {
         "name": "Phoenix", "country": "USA — Arizona", "tz_hours": -7, "lat": 33.45, "lon": -112.07,
         "population": "≈ 1,6 M (ville) · 4,9 M (métropole)",
-        "heat_pitch": "chaleur désertique — 40–43 °C réguliers en août, 45+ en vague de chaleur",
+        "heat_pitch": "chaleur désertique — 40–43 °C réguliers en août, ~43–44 °C en vague de chaleur",
         "map": {"label": "SONORAN DESERT", "coast": False, "x0": -112.45, "x1": -111.65, "y0": 33.25, "y1": 33.65},
         "scoring": {"t_lo": 35.0, "t_hi": 45.0, "rh_lo": 10.0, "rh_hi": 40.0},
         "climate": {

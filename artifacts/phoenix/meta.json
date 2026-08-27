@@ -44,10 +44,10 @@
   },
   "z_hod_threshold": 2.5,
   "metrics": {
-    "mae": 0.601,
-    "rmse": 0.768,
-    "r2": 0.9721,
-    "mae_op_window_10h_16h": 0.397,
+    "mae": 0.458,
+    "rmse": 0.561,
+    "r2": 0.9854,
+    "mae_op_window_10h_16h": 0.444,
     "horizon_h": 6,
     "n_train_rows": 2260,
     "n_test_rows": 500
@@ -58,9 +58,9 @@
     "z_hod",
     "uhi",
     "wind_ms",
-    "t_12h",
     "wb_gt",
-    "slope_3h"
+    "t_12h",
+    "trend_6h"
   ],
-  "model_size_kb": 1979.8
+  "model_size_kb": 1980.5
 }

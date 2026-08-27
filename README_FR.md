@@ -28,7 +28,7 @@ marchés, travailleurs extérieurs).
 | Couche | Quoi |
 |---|---|
 | 📡 **Data** | 20 **points de mesure du maillage Temperature API®** (résolution 20 m², température modélisée à 2 m du sol — le maillage est celui de FortyGuard, **nous n'installons aucun capteur**) sur les zones clés : port/industriel, centres denses, plage (brise maritime) |
-| 🧠 **AI core** | **Modèle hybride** (composante de tendances linéaires Ridge + LightGBM) : nowcast du **pic de température 6 heures à l'avance** par point — **Cotonou : MAE 0,26 °C, R² 0,95** · **Phoenix : MAE 0,60 °C, R² 0,97** (hold-out 24 h, ~2 Mo). + **z-score 48 h** (simple, seuil \|z\| ≥ 2,5) : anomalies — micro-pics locaux, dérives capteur |
+| 🧠 **AI core** | **Modèle hybride** (composante de tendances linéaires Ridge + LightGBM) : nowcast du **pic de température 6 heures à l'avance** par point — **Cotonou : MAE 0,26 °C, R² 0,95** · **Phoenix : MAE 0,46 °C, R² 0,99** (hold-out 24 h, ~2 Mo). + **z-score 48 h** (simple, seuil \|z\| ≥ 2,5) : anomalies — micro-pics locaux, dérives capteur |
 | 🤖 **Agent** | Moteur de politique **transparent** (pas de black box, pas de dépendance LLM) : déduplication, escalade uniquement, registre d'audit JSONL, alertes **FR + fon** (+ EN) avec **actions concrètes** |
 | 📤 **Notifications** | Agent → **Twilio SMS/WhatsApp** (credentials optionnelles ; sans clés : journal local `artifacts/{ville}/notifications.jsonl`) |
 | 🗺️ **Dashboard** | Carte de chaleur temps réel, jauge de risque ville, détail par nœud (24 h + nowcast), flux d'alertes, journal de l'agent — **100 % auto-suffisant (fonctionne hors-ligne)** |
@@ -184,7 +184,7 @@ heat-sentinel/
 - **Cible** : `max(T[t+1..t+6])` par nœud — horizon d'action utile pour une ville.
 - **Évaluation** : hold-out **temporel** 24 h (aucun leakage : les features
   n'utilisent que le passé). **Cotonou : MAE 0,26 °C · R² 0,95 — Phoenix :
-  MAE 0,60 °C · R² 0,97** (le désert est plus difficile : amplitude diurne
+  MAE 0,46 °C · R² 0,99** (le désert est plus difficile : amplitude diurne
   ~17 °C, et le hold-out tombe sur une vraie vague de chaleur 46 °C).
 - **Pourquoi un modèle hybride** : les arbres (LightGBM) ne savent pas
   extrapoler — en fin de vague de chaleur, la tendance sort de la plage

@@ -32,7 +32,7 @@ HeatSentinel closes the full **Monitor → Predict → Decide → Act** loop:
 | Layer | What |
 |---|---|
 | 📡 **Data** | 20 **Temperature API® measurement points** (20 m² resolution, modeled 2 m above ground — FortyGuard's mesh; **we install no hardware**) across key zones: core UHI, river corridor (cooling effect), suburban edge, activity centers |
-| 🧠 **AI core** | **Hybrid model** (Ridge trend component + LightGBM) **nowcasting the temperature peak 6 hours ahead** per point — **Phoenix: MAE 0.60 °C, R² 0.97** (24 h time-based hold-out, ~2 MB model) + **48 h z-score** anomaly detection (local heat spikes, sensor drift) |
+| 🧠 **AI core** | **Hybrid model** (Ridge trend component + LightGBM) **nowcasting the temperature peak 6 hours ahead** per point — **Phoenix: MAE 0.46 °C, R² 0.99** (24 h time-based hold-out, ~2 MB model) + **48 h z-score** anomaly detection (local heat spikes, sensor drift) |
 | 🤖 **Agent** | Transparent policy engine (no black box, no LLM dependency): dedup, escalation-only, JSONL audit ledger, **localized alerts with concrete actions** (EN for Phoenix; FR + **Fon** for Cotonou) |
 | 📤 **Notifications** | Agent → **Twilio SMS/WhatsApp** (optional credentials; without them: local audit log) |
 | 🗺️ **Dashboard** | Real-time heat map on a real OpenStreetMap map, city risk gauge, per-point detail (24 h + nowcast), alert feed, agent log — **self-contained, works offline** |
@@ -114,7 +114,7 @@ set). A `Dockerfile` (Jetson-ready edge vision) is included for self-hosting.
 
 - **Target:** `max(T[t+1..t+6])` per node — the actionable horizon for a city.
 - **Evaluation:** time-based 24 h hold-out, no leakage (past-only features):
-  Phoenix **MAE 0.60 °C, RMSE 0.77 °C, R² 0.97** (desert = harder: 18 °C
+  Phoenix **MAE 0.46 °C, RMSE 0.56 °C, R² 0.99** (desert = harder: 18 °C
   diurnal amplitude); Cotonou **MAE 0.26 °C, RMSE 0.33 °C, R² 0.95**.
 - **Why a hybrid:** trees cannot extrapolate — at the top of a heat-wave ramp
   the trend feature leaves the training range and peaks are under-predicted

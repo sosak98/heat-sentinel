@@ -74,6 +74,29 @@ def calibrate_history(history: pd.DataFrame, city: str) -> tuple[pd.DataFrame, i
         # RH légèrement ajustée en cohérence (chaud réel ⇒ moins humide) :
         # pas de mesure RH réelle pour l'instant → on ne touche pas à rh_pct.
         n_cal += 1
+
+    # CONTINUATION DE TENDANCE : les jours simulés APRÈS le dernier jour réel
+    # suivent la tendance observée sur les 2 derniers jours réels (amortie
+    # ×0.7) — le pic projeté reste cohérent avec les mesures (pas de saut).
+    last_day = real["date"].max()
+    for nid, gnode in df.groupby("node_id"):
+        rnode = real[real["node_id"] == nid].sort_values("date")
+        if len(rnode) < 2:
+            continue
+        dmax = float(rnode["max_c"].iloc[-1] - rnode["max_c"].iloc[-2])
+        dmin = float(rnode["min_c"].iloc[-1] - rnode["min_c"].iloc[-2])
+        tmax = float(rnode["max_c"].iloc[-1]) + 0.7 * dmax
+        tmin = float(rnode["min_c"].iloc[-1]) + 0.7 * dmin
+        fut = gnode[gnode["date"] > last_day]
+        for _, g in fut.groupby("date"):
+            t = g["temp_c"].to_numpy()
+            lo_m, hi_m = t.min(), t.max()
+            if hi_m - lo_m < 1e-3:
+                continue
+            a = (tmax - tmin) / (hi_m - lo_m)
+            b = tmin - a * lo_m
+            df.loc[g.index, "temp_c"] = a * t + b
+
     df = df.drop(columns=["date"])
     return df, n_cal
 

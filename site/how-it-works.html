@@ -43,7 +43,7 @@
         <div class="num">2</div>
         <div>
           <h3>Predict <small>— the peak six hours ahead, point by point</small></h3>
-          <p>A 2 MB hybrid model (Ridge trend component + LightGBM) nowcasts each point's temperature peak over the next six hours. Six hours is the actionable horizon: early enough to open a cooling center or move outdoor work, recent enough to be accurate. Measured precision: <b>MAE 0.61 °C on real Phoenix data</b>, 0.26 °C on the Cotonou configuration (calibrated against real weather).</p>
+          <p>A 2 MB hybrid model (Ridge trend component + LightGBM) nowcasts each point's temperature peak over the next six hours. Six hours is the actionable horizon: early enough to open a cooling center or move outdoor work, recent enough to be accurate. Measured precision: <b>MAE 0.46 °C on real Phoenix data</b>, 0.26 °C on the Cotonou configuration (calibrated against real weather).</p>
           <div class="eg">19 interpretable features: 24/48/72 h lags, 6/12/24/72 h trends, diurnal phase, per-zone UHI coefficient, wet-bulb temperature (Stull 2011) as the felt-heat proxy.</div>
         </div>
       </div>
@@ -78,12 +78,12 @@
       <div class="card">
         <span class="ico">🧮</span>
         <h3>The risk score (0–100), fully transparent</h3>
-        <p>The score blends the predicted peak (65% weight) with humidity (35% — the driver of "feels-like"). Thresholds follow WHO heat-plan bands: <b>green</b> &lt;30 · <b>yellow</b> &lt;50 · <b>orange</b> &lt;70 · <b>red</b> &lt;85 · <b>black</b> ≥85, recalibrated per climate (Phoenix 35–45 °C, Cotonou 28–38 °C). Anyone can verify the arithmetic: the formula is public in the repo.</p>
+        <p>The score blends the predicted peak (65% weight) with humidity (35% — the driver of "feels-like"). Thresholds are aligned with national heat-health action plans (e.g., WHO/Europe guidance): <b>green</b> &lt;30 · <b>yellow</b> &lt;50 · <b>orange</b> &lt;70 · <b>red</b> &lt;85 · <b>black</b> ≥85, recalibrated per climate (Phoenix 35–45 °C, Cotonou 28–38 °C). Anyone can verify the arithmetic: the formula is public in the repo.</p>
       </div>
       <div class="card">
         <span class="ico">🔌</span>
         <h3>What happens when the grid goes down</h3>
-        <p>Extreme heat degrades power and connectivity — the system is <b>edge-first</b>: the model runs locally on an NVIDIA Jetson ($120, 8 GB), &lt;10 ms inference, no internet required. During outages, monitoring and local alerts continue; the audit ledger syncs when the network returns. This is the edge–cloud architecture deployed in NVIDIA AI Factories.</p>
+        <p>Extreme heat degrades power and connectivity — the system is <b>edge-first</b>: the model runs locally on a Jetson-class edge device (&lt;$250, 8 GB), &lt;10 ms inference, no internet required. During outages, monitoring and local alerts continue; the audit ledger syncs when the network returns. This is inspired by the edge–cloud architectures of NVIDIA AI Factories.</p>
       </div>
     </div>
     <p class="center mt32"><a class="btn primary" href="demo.html">Watch the loop live in the demo →</a></p>
@@ -106,6 +106,7 @@
   <div class="row">
     <span><span class="flame">🔥</span> HEATSENTINEL · ClimVision</span>
     <span>FortyGuard Hackathon'26 · Maps © OpenStreetMap contributors</span>
+    <span><a href="https://github.com/sosak98/heat-sentinel" target="_blank">Code on GitHub</a></span>
     <span><a href="index.html">Home</a> · <a href="demo.html">Demo</a> · <a href="real-data.html">Real data</a> · <a href="team.html">Team</a></span>
   </div>
 </footer>

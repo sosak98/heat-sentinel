@@ -182,7 +182,8 @@ footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:
         <div class="detailgrid">
           <div class="dcell"><div class="k">Now</div><div class="v" id="dT">—</div></div>
           <div class="dcell"><div class="k">Peak in 6 h</div><div class="v acc" id="dPeak">—</div></div>
-          <div class="dcell"><div class="k">Feels-like (wet bulb)</div><div class="v" id="dWb">—</div></div>
+          <div class="dcell"><div class="k">Wet-bulb temperature (T*)</div><div class="v" id="dWb">—</div></div>
+          <div class="dcell"><div class="k">Feels-like (apparent)</div><div class="v" id="dApp">—</div></div>
           <div class="dcell"><div class="k">Risk (0–100)</div><div class="v" id="dScore">—</div></div>
         </div>
         <canvas id="spark" width="900" height="74"></canvas>
@@ -255,6 +256,7 @@ function render(){
   CITYKEY=(DATA.city.name||"").toLowerCase();
   // header
   $("#cityName").textContent = CITYKEY==="phoenix" ? "Phoenix, USA" : "Cotonou, Benin";
+  document.title = CITYKEY==="phoenix" ? "HeatSentinel — Live Demo · Phoenix (Real Mesh Data)" : "HeatSentinel — Live Demo · Cotonou (Deployment Target)";
   $("#clock").textContent="Local time: "+DATA.clock_local;
   const b=$("#badge");
   if(LIVE){b.className="badge live";b.innerHTML="● LIVE (×4 accelerated — 1 h ≈ 15 s)";}
@@ -317,6 +319,8 @@ function renderDetail(){
   $("#dT").textContent=n.t_now.toFixed(1)+" °C";
   $("#dPeak").textContent="≈ "+n.tmax6h.toFixed(1)+" °C";
   $("#dWb").textContent=n.wb_gt.toFixed(1)+" °C";
+  var eV=n.rh/100*6.105*Math.exp(17.27*n.t_now/(237.7+n.t_now));
+  $("#dApp").textContent=(n.t_now+0.33*eV-0.70*n.wind-4.00).toFixed(1)+" °C";
   $("#dScore").textContent=n.score.toFixed(0);
   $("#dScore").style.color=COLORS[n.level]||"#fff";
   const pts=(DATA.series&&DATA.series[n.node_id])||[];
