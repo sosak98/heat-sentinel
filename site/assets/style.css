@@ -133,3 +133,29 @@ footer .flame{color:#ffb14d}
   nav.main a:not(.nav-cta){display:none}
   .step{flex-direction:column;gap:12px}
 }
+
+/* ---------- comparaison chiffres (home) ---------- */
+.band-compare{background:#1c1a17;color:#fff;padding:40px 0}
+.band-compare .kicker{color:#ffb14d}
+.band-compare .row2{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:20px}
+.band-compare .row2 b{display:block;font-size:44px;font-weight:800;letter-spacing:-.01em;color:#ffb14d;line-height:1.05}
+.band-compare .row2 span{color:#e6e1da;font-size:15px;line-height:1.55;display:block;margin-top:10px}
+.band-compare .foot{margin-top:24px;font-size:12.5px;color:#9a938a}
+
+/* ---------- timeline (home) ---------- */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tl{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tl .t{display:inline-block;font-weight:800;color:var(--heat);font-size:15px;margin-bottom:6px}
+.tl p{font-size:13.5px;color:var(--mut);margin:0;line-height:1.45}
+
+/* ---------- visuel mesh (home) ---------- */
+.meshimg{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow);margin-top:22px;display:block}
+
+@media (max-width:900px){
+  .band-compare .row2{grid-template-columns:1fr;gap:22px}
+  .timeline{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ---------- schéma d'architecture (how it works) ---------- */
+.arch{margin:28px 0 10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 14px;box-shadow:var(--shadow)}
+.arch svg{width:100%;height:auto;display:block}

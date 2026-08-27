@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HeatSentinel | Hyperlocal Heat Intelligence · FortyGuard Hackathon'26</title>
 <meta name="description" content="HeatSentinel is an agentic AI system that turns the FortyGuard Temperature API into actionable heat early warning, proven live on real Phoenix data, 2 m above ground.">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HeatSentinel">
+<meta property="og:title" content="HeatSentinel · The city's temperature AI">
+<meta property="og:description" content="Street-level heat peaks, predicted six hours early. Proven live on real Phoenix mesh data: 42.9 °C real peak during a heat wave, 0.36 °C mean error.">
+<meta property="og:url" content="https://heatsentinel.onrender.com/">
+<meta property="og:image" content="https://heatsentinel.onrender.com/assets/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -47,6 +55,17 @@
   </div>
 </div>
 
+<section class="band-compare">
+  <div class="wrap">
+    <div class="kicker">Why street level: the numbers</div>
+    <div class="row2">
+      <div><b>2.9 °C</b><span>How far a standard forecast misses the real street-level peak, on our three real days: for Aug 26 it says 46.3 °C where Downtown measured 42.9 °C.</span></div>
+      <div><b>0.36 °C</b><span>HeatSentinel's mean error on that same peak, nowcast six hours early (strict 24 h temporal hold-out on real data).</span></div>
+    </div>
+    <p class="foot">Standard forecast: Open-Meteo, station scale · Real values: Temperature API® mesh maxima, Aug 24–26, 2026 · Reproducible from the public repo.</p>
+  </div>
+</section>
+
 <section class="block">
   <div class="wrap">
     <div class="kicker">The problem</div>
@@ -82,6 +101,12 @@
       <div class="card"><span class="ico">⚖️</span><h3>Decide</h3><p>A transparent rule engine (no black box, no LLM in the safety loop) that escalates only when needed and never spams.</p></div>
       <div class="card"><span class="ico">📲</span><h3>Act</h3><p>Localized alerts by SMS / WhatsApp with concrete actions: open cooling centers, ER standby, pause outdoor work 14:00–17:00.</p></div>
     </div>
+    <div class="timeline mt32">
+      <div class="tl"><span class="t">13:00</span><p>Peak forecast for Downtown: 42.9 °C around 16:00, risk 65/100</p></div>
+      <div class="tl"><span class="t">14:00</span><p>Alert dispatched by SMS / WhatsApp, with the concrete next steps</p></div>
+      <div class="tl"><span class="t">14:15</span><p>Cooling center open · outdoor work paused 14:00–17:00</p></div>
+      <div class="tl"><span class="t">17:00</span><p>The peak passes. The city acted before the heat, not after it</p></div>
+    </div>
     <p class="mt24"><a class="btn dark" href="how-it-works.html">See the full pipeline →</a></p>
   </div>
 </section>
@@ -102,13 +127,23 @@
   </div>
 </section>
 
+<section class="block" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="kicker">The mesh, one real day</div>
+    <h2 class="title" style="font-size:26px">Twenty points, one Saturday: 41.9 °C to 42.9 °C</h2>
+    <p class="sub">The map below shows the real daily maxima captured on the mesh on Saturday, August 26, 2026, mid-heat-wave: a full degree of spread across the city, point by point. The live demo shows the same mesh with the six-hour-ahead forecast and the agent's decisions, updating continuously.</p>
+    <img class="meshimg" src="assets/mesh_phoenix.jpg" alt="Real daily maxima across 20 Phoenix mesh points, Saturday Aug 26 2026" loading="lazy">
+    <p class="mt24"><a class="btn primary" href="demo.html">See it live, with the forecast →</a></p>
+  </div>
+</section>
+
 <section class="block" style="background:var(--surface);border-top:1px solid var(--line)">
   <div class="wrap">
     <div class="grid2" style="margin-top:0">
       <div class="card">
         <span class="ico">🛫</span>
         <h3>Built for the edge, because grids go down in heat waves</h3>
-        <p>The model ships at 2 MB, infers in &lt;10 ms and runs on an NVIDIA Jetson with no internet. When power and connectivity fail (the usual pattern during extreme heat), local monitoring and alerts keep running. The winning Jetson kit would become our first deployed node.</p>
+        <p>The model ships at 2 MB and refreshes the entire Phoenix mesh (2,880 predictions) in 100 ms, on an NVIDIA Jetson with no internet and zero cloud cost per alert. When power and connectivity fail (the usual pattern during extreme heat), local monitoring and alerts keep running. One unit per city, under $250; the winning Jetson kit would become our first deployed node.</p>
       </div>
       <div class="card">
         <span class="ico">🎯</span>
