@@ -1,0 +1,12 @@
+# Secrets — JAMAIS commités (la clé API est dans .env)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# NOTE: artifacts/ est commité à dessein — il contient les modèles entraînés,
+# le snapshot du dashboard ET les données réelles récoltées (CSV + cache),
+# ce qui permet de lancer la démo SANS clé API ni re-entraînement :
+#     pip install -r requirements.txt && python run_server.py

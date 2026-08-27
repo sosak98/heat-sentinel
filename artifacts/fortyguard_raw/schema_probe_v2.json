@@ -1,0 +1,29 @@
+{
+ "create": {
+  "error": false,
+  "status_code": 200,
+  "message": "Heatmap Submitted Successfully",
+  "data": {
+   "activity_id": "880290ae-2373-42b3-8fad-fa6980285ebd"
+  }
+ },
+ "final": {
+  "error": false,
+  "status_code": 200,
+  "message": "Completed",
+  "data": {
+   "activity_id": "880290ae-2373-42b3-8fad-fa6980285ebd",
+   "status": "Completed",
+   "result": {
+    "map_data": {
+     "type": "FeatureCollection",
+     "features": []
+    },
+    "stats_data": {
+     "activity_id": "880290ae-2373-42b3-8fad-fa6980285ebd",
+     "n_cells": 0
+    }
+   }
+  }
+ }
+}

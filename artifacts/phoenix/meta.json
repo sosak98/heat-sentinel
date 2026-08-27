@@ -1,0 +1,66 @@
+{
+  "city": "phoenix",
+  "features": [
+    "t_now",
+    "t_3h",
+    "t_6h",
+    "t_12h",
+    "t_24h",
+    "t_72h",
+    "t_24h_lag",
+    "t_48h_lag",
+    "slope_3h",
+    "trend_6h",
+    "trend_12h",
+    "trend_24h",
+    "trend_72h",
+    "z_temp",
+    "z_hod",
+    "rh_pct",
+    "wind_ms",
+    "wb_gt",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "uhi",
+    "zone_ind",
+    "zone_beach",
+    "zone_dense"
+  ],
+  "lin_cols": [
+    "t_now",
+    "trend_6h",
+    "trend_12h",
+    "trend_24h",
+    "trend_72h",
+    "uhi"
+  ],
+  "scoring": {
+    "t_lo": 35.0,
+    "t_hi": 45.0,
+    "rh_lo": 10.0,
+    "rh_hi": 40.0
+  },
+  "z_hod_threshold": 2.5,
+  "metrics": {
+    "mae": 0.601,
+    "rmse": 0.768,
+    "r2": 0.9721,
+    "mae_op_window_10h_16h": 0.397,
+    "horizon_h": 6,
+    "n_train_rows": 2260,
+    "n_test_rows": 500
+  },
+  "top_features": [
+    "t_24h",
+    "t_72h",
+    "z_hod",
+    "uhi",
+    "wind_ms",
+    "t_12h",
+    "wb_gt",
+    "slope_3h"
+  ],
+  "model_size_kb": 1979.8
+}

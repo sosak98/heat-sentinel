@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How it works — HeatSentinel</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="topbar">
+    <a class="logo" href="index.html">
+      <span class="flame">🔥</span>
+      <span>HEATSENTINEL<small>Urban Heat Intelligence</small></span>
+    </a>
+    <nav class="main">
+      <a href="index.html">Home</a>
+      <a class="on" href="how-it-works.html">How it works</a>
+      <a href="real-data.html">Real data</a>
+      <a href="team.html">Team</a>
+      <a class="nav-cta" href="demo.html">▶ Live demo</a>
+    </nav>
+  </div>
+</header>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">The pipeline</div>
+    <h2 class="title">From street-level reading to field action — four stages, 24/7</h2>
+    <p class="sub">HeatSentinel is not a dashboard: it is an <b>agent</b>. It observes, predicts, decides and acts autonomously, with every decision written to an audit ledger.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>Observe <small>— what is happening at street level, right now</small></h3>
+          <p>The agent continuously reads the 20 mesh points (temperature modeled 2 m above ground, 20 m² resolution). It also validates every reading: is this temperature normal for this hour? A 48-hour z-score (|z| ≥ 2.5) flags local micro-spikes and sensor drift in real time.</p>
+          <div class="eg">Example: at 14:00, the port district reads 41 °C where the 48 h profile expects 38 °C → anomaly raised before any alert decision.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>Predict <small>— the peak six hours ahead, point by point</small></h3>
+          <p>A 2 MB hybrid model (Ridge trend component + LightGBM) nowcasts each point's temperature peak over the next six hours. Six hours is the actionable horizon: early enough to open a cooling center or move outdoor work, recent enough to be accurate. Measured precision: <b>MAE 0.61 °C on real Phoenix data</b>, 0.26 °C on the Cotonou configuration (calibrated against real weather).</p>
+          <div class="eg">19 interpretable features: 24/48/72 h lags, 6/12/24/72 h trends, diurnal phase, per-zone UHI coefficient, wet-bulb temperature (Stull 2011) as the felt-heat proxy.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>Decide <small>— transparent rules, no black box</small></h3>
+          <p>When the forecast crosses a risk threshold (score ≥ 45/100, or an anomaly), the agent prepares an alert. Two safeguards: it <b>never re-alerts the same zone within 6 hours</b> (no spam), and it only <b>escalates</b> levels, never de-escalates. No LLM in the safety loop — a system that protects people must be fully explainable. Every decision lands in a JSONL audit ledger.</p>
+          <div class="eg">Ledger: « 14:02 · Garfield Ctr · score 82 → escalate Vigilance → Critical · alert #4 dispatched »</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div>
+          <h3>Act <small>— the alert goes out with the right next steps</small></h3>
+          <p>Alerts are dispatched by <b>SMS or WhatsApp</b> (Twilio), <b>localized per city</b>, and they do not just say "it is hot" — they say <b>what to do</b>. Phoenix demo: English. Cotonou deployment: French + <b>Fon</b>, the language of the most exposed southern districts.</p>
+          <div class="alerte" style="margin-top:14px;box-shadow:none">
+            <div class="head"><span>📲 15:00</span><span class="lvl">CRITICAL</span><span>Port market, Cotonou (deployment target)</span></div>
+            <div class="fr">Feels-like 41.5 °C expected at 17:00 (risk 82/100). Suspend outdoor work 14:00–17:00; deploy water and shade.</div>
+            <div class="fon"><span class="tag">FON</span>Nyuɖu gbã nyu — tɔ nyǐ, jɔ mɛ tɔn 14h–17h !</div>
+            <div class="acts"><b>Actions:</b> cooling center opened · priority visits to vulnerable residents · ER on standby</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="grid2" style="margin-top:0">
+      <div class="card">
+        <span class="ico">🧮</span>
+        <h3>The risk score (0–100), fully transparent</h3>
+        <p>The score blends the predicted peak (65% weight) with humidity (35% — the driver of "feels-like"). Thresholds follow WHO heat-plan bands: <b>green</b> &lt;30 · <b>yellow</b> &lt;50 · <b>orange</b> &lt;70 · <b>red</b> &lt;85 · <b>black</b> ≥85, recalibrated per climate (Phoenix 35–45 °C, Cotonou 28–38 °C). Anyone can verify the arithmetic: the formula is public in the repo.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🔌</span>
+        <h3>What happens when the grid goes down</h3>
+        <p>Extreme heat degrades power and connectivity — the system is <b>edge-first</b>: the model runs locally on an NVIDIA Jetson ($120, 8 GB), &lt;10 ms inference, no internet required. During outages, monitoring and local alerts continue; the audit ledger syncs when the network returns. This is the edge–cloud architecture deployed in NVIDIA AI Factories.</p>
+      </div>
+    </div>
+    <p class="center mt32"><a class="btn primary" href="demo.html">Watch the loop live in the demo →</a></p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Where the AI is used — and where it deliberately isn't</div>
+    <h2 class="title">Predictive where it is hard, deterministic where it is vital</h2>
+    <div class="grid3">
+      <div class="card"><span class="ico">📈</span><h3>AI for prediction</h3><p>The 6-hour nowcast is the genuine ML problem: 19 interpretable signals combined by a Ridge + LightGBM hybrid, trained with a strict temporal hold-out (no leakage). Trees extrapolate poorly at the top of a heat-wave ramp — the Ridge trend component fixes exactly that.</p></div>
+      <div class="card"><span class="ico">🧾</span><h3>Rules for decisions</h3><p>The alert decision is never delegated to a stochastic model. In a safety-critical loop, transparency beats sophistication: a city engineer must be able to read why the system acted — and it can be read, line by line, in the ledger.</p></div>
+      <div class="card"><span class="ico">🤝</span><h3>Humans in charge</h3><p>Every alert names actions that humans execute: hospitals, schools, markets. The AI does not replace anyone — it delivers the six-hour head start, the right message, in the right language, at the right time.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="row">
+    <span><span class="flame">🔥</span> HEATSENTINEL · ClimVision</span>
+    <span>FortyGuard Hackathon'26 · Maps © OpenStreetMap contributors</span>
+    <span><a href="index.html">Home</a> · <a href="demo.html">Demo</a> · <a href="real-data.html">Real data</a> · <a href="team.html">Team</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

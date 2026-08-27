@@ -1,0 +1,14 @@
+{
+ "activity_id": "0d26cf79-cb22-4e14-a5ab-97caeab96642",
+ "status": "Completed",
+ "result": {
+  "map_data": {
+   "type": "FeatureCollection",
+   "features": []
+  },
+  "stats_data": {
+   "activity_id": "0d26cf79-cb22-4e14-a5ab-97caeab96642",
+   "n_cells": 0
+  }
+ }
+}
