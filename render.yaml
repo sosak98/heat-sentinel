@@ -1,6 +1,4 @@
 # HeatSentinel — Render Blueprint (déploiement gratuit, 1 clic)
-# Sur render.com : "New +" → "Blueprint" → choisir ce repo → "Apply".
-# Service web gratuit (512 Mo), réveil ~30–60 s après 15 min d'inactivité.
 services:
   - type: web
     name: heatsentinel
@@ -8,8 +6,11 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
+    buildCommand: pip install -r requirements.txt
     startCommand: python run_server.py
     healthCheckPath: /health
     envVars:
       - key: HS_CITY
         value: phoenix
+      - key: PYTHON_VERSION
+        value: "3.11.9"
