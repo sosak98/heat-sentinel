@@ -267,7 +267,7 @@ function render(){
   document.title = CITYKEY==="phoenix" ? "HeatSentinel | Live Demo · Phoenix (Real Mesh Data)" : "HeatSentinel | Live Demo · Cotonou (Deployment Target)";
   $("#clock").textContent="Local time: "+DATA.clock_local;
   const b=$("#badge");
-  if(LIVE){b.className="badge live";b.innerHTML="● LIVE (×4 accelerated, 1 h ≈ 15 s)";}
+  if(LIVE){b.className="badge live";b.innerHTML="● LIVE ("+DATA.speed+")";}
   else{b.className="badge demo";b.innerHTML="◍ DEMO MODE (offline snapshot)";}
   // banner
   const bn=BANNER[CITYKEY]||BANNER.cotonou;
@@ -332,7 +332,7 @@ function renderDetail(){
   $("#dScore").textContent=n.score.toFixed(0);
   $("#dScore").style.color=COLORS[n.level]||"#fff";
   const pts=(DATA.series&&DATA.series[n.node_id])||[];
-  const ctx=$("#spark"), W=ctx.width, H=ctx.height;
+  const cv=$("#spark"), ctx=cv.getContext("2d"), W=cv.width, H=cv.height;
   ctx.clearRect(0,0,W,H);
   if(pts.length<2) return;
   const vals=pts.map(p=>p[1]);

@@ -145,7 +145,7 @@ class Engine:
                       "Simulated Temperature API® mesh feed (identical schema), calibrated on real Open-Meteo weather")
         return {
             "mode": mode,
-            "speed": "1h ≈ 15s (démo)",
+            "speed": f"1h ≈ {DEMO_STEP_S:g}s (démo)",
             "ts": ts.isoformat(),
             "clock_local": f"{(ts.hour + CFG['tz_hours']) % 24:02d}:{ts.minute:02d}",
             "city": {
@@ -200,9 +200,12 @@ def _startup():
         asyncio.create_task(_sync_loop())
 
 
+DEMO_STEP_S = float(os.environ.get("DEMO_STEP_S", "15"))
+
+
 async def _loop():
     while True:
-        await asyncio.sleep(15)
+        await asyncio.sleep(DEMO_STEP_S)
         engine.step()
 
 
