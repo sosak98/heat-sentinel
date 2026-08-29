@@ -20,8 +20,8 @@ from __future__ import annotations
 import asyncio
 import os
 
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse, Response
 
 from ..agent.sentinel import SentinelAgent
 from ..data.cities import get_city
@@ -46,6 +46,18 @@ SITE_PAGES = {
 LEDGER = os.path.join(BASE_ART, CITY_KEY, "alert_ledger.jsonl")
 
 app = FastAPI(title=f"HeatSentinel — {CFG['name']} Urban Heat Intelligence")
+
+
+@app.middleware("http")
+async def _head_support(request: Request, call_next):
+    """Les services de monitoring (UptimeRobot et consorts) sondent en
+    HEAD. FastAPI ne gère que GET par défaut → on sert HEAD comme GET,
+    avec le même statut et les mêmes en-têtes, sans corps."""
+    if request.method != "HEAD":
+        return await call_next(request)
+    request.scope["method"] = "GET"
+    response = await call_next(request)
+    return Response(status_code=response.status_code, headers=response.headers, content=b"")
 
 
 class Engine:
